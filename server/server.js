@@ -30,6 +30,7 @@ app.get('/todos',(req,res)=>{
     })
 });
 
+
 app.get('/todos/:id',(req,res)=>{
   const id = req.params.id;
   if(!ObjectID.isValid(id)) return res.status(404).send('');
@@ -72,6 +73,17 @@ app.patch('/todos/:id',(req,res)=>{
       res.status(400).send();
     })
 
+});
+
+//UserModel
+app.post('/users',(req,res)=>{
+  let body = _.pick(req.body,['email','password']);
+  var user = new User(body);
+  user.save().then((doc)=>{
+    res.send(doc);
+  },(e)=>{
+    res.status(400).send(e);
+  })
 });
 
 app.listen(3000,()=>{
